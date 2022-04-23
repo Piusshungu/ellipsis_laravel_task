@@ -7,7 +7,7 @@
 
 # Ellipsis `LINK SHORTEN` APP
 
-Biashara plus is a well crafted and simple to use app that aims to help business owners at Forever to access their products pricelist and removing all the go betweens that slow you down so they can use the extra time to do some more biashara.
+This is a simple application (web application) aiming at shortening the URL provided by the user before redirecting to another page. In addition to that, admin user will be able to view, edit and delete the URLs provided
 
 # Setup
 ## First clone the project to your local environmennt
@@ -21,8 +21,8 @@ Biashara plus is a well crafted and simple to use app that aims to help business
 
   ```sh
   composer install
-  $ cp .env.example .env
-  $ php artisan key:generate
+  $ cp .env.example .env (If you are using most recently version of Laravel no need for this step)
+  $ php artisan key:generate (If you are using most recently version of Laravel no need for this step)
   ```
 - setup the database credentials to the .env file
 
@@ -51,5 +51,5 @@ Biashara plus is a well crafted and simple to use app that aims to help business
  
         `npm install && npm run watch`
 
-## Take A Cup Of Coffee & Good Luck!!
+## Enjoy and have fun 
     
