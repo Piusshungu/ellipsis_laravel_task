@@ -22,13 +22,19 @@ class ShortLinkController extends Controller
         ]);
 
         $builder = new \AshAllenDesign\ShortURL\Classes\Builder();
+
         $shortURLObject = $builder->destinationUrl(request()->url)
+
             ->activateAt(now()->addMinutes(5))
+
             ->deactivateAt(Carbon::now()->addMinutes(request()->ttl))
+
             ->secure(false)
+
             ->make();
 
             return back()->with('status', 'short link created successfuly, 
+
             wait for 5 minutes link to be active');
     }
 
@@ -49,34 +55,39 @@ class ShortLinkController extends Controller
      * @param  mixed $link
      * @param  mixed $request
      */
-    public function update(ShortURL $link, Request $request)
+    public function update(ShortURL $link)
     {
 
-        $request->validate([
+        request()->validate([
             'url' => 'required',
+
             'ttl' => 'required'
         ]);
 
+        if (strcmp($link->destination_url, request()->url) !== 0) {
 
-        //Check if destination URL === request URL
-        if (strcmp($link->destination_url, $request->url) !== 0) {
             $link->delete();
 
             $builder = new \AshAllenDesign\ShortURL\Classes\Builder();
-            $shortURLObject = $builder->destinationUrl($request->url)
+
+            $shortURLObject = $builder->destinationUrl(request()->url)
+            
                 ->activateAt(now()->addMinutes(5))
-                ->deactivateAt(Carbon::now()->addMinutes($request->ttl))
+
+                ->deactivateAt(Carbon::now()->addMinutes(request()->ttl))
+
                 ->secure(false)
+
                 ->make();
 
             return back()->with('status', 'short link updated successfuly');
         }
 
-        $deactivationAt = now()->addMinutes($request->ttl);
+        $deactivationAt = now()->addMinutes(request()->ttl);
         
         $link->update(['activated_at' => now()->addMinutes(5), 'deactivated_at' => $deactivationAt]);
 
-        return back()->with('status', 'short link updated successfuly');
+        return back()->with('status', 'short link updated');
     }
     
     /**
@@ -87,10 +98,10 @@ class ShortLinkController extends Controller
      */
     public function deactivate(ShortURL $link)
     {
-        //TODO: Submit PR for adding deleted_at for deactivatio
-        //TODO: Fix Route cache on timestamp columns
-        //This is not working as expected , I have noticed an issue and I will submit the PR to original author of this package
+       
+      
         $link->update(['activated_at' => now()->subDay(),'deactivated_at' => now()->subDay()]);
+
         return back()->with('status', 'short link deactivated successfuly');
     }
     
@@ -103,6 +114,7 @@ class ShortLinkController extends Controller
     public function destroy(ShortURL $link)
     {
         $link->delete();
-        return back()->with('status', 'short link deleted successfuly');
+
+        return back()->with('status', 'short link deleted');
     }
 }
