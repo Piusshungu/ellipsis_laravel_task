@@ -13,17 +13,18 @@ class ShortLinkController extends Controller
      *
      * @param  mixed $request
      */
-    public function store(Request $request)
+    public function store()
     {
-        $request->validate([
+        request()->validate([
             'url' => 'required',
+
             'ttl' => 'required'
         ]);
 
         $builder = new \AshAllenDesign\ShortURL\Classes\Builder();
-        $shortURLObject = $builder->destinationUrl($request->url)
+        $shortURLObject = $builder->destinationUrl(request()->url)
             ->activateAt(now()->addMinutes(5))
-            ->deactivateAt(Carbon::now()->addMinutes($request->ttl))
+            ->deactivateAt(Carbon::now()->addMinutes(request()->ttl))
             ->secure(false)
             ->make();
 

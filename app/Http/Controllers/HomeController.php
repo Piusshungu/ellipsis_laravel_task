@@ -26,6 +26,7 @@ class HomeController extends Controller
     {
 
         $links = ShortURL::latest()->paginate(10);
+        
         return view('home',compact('links'));
     }
 }
