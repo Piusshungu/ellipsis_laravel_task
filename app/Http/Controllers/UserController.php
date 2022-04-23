@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function profile(User $user){
+    public function profile($id){
+
+        $user = User::find($id);
         
         return view('profile',compact('user'));
     }
