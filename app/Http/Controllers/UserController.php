@@ -3,28 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    public function profile($id){
-
-        $user = User::find($id);
+    public function profile(User $user){
         
         return view('profile',compact('user'));
     }
 
-    public function update($id)
-    {
-        $user = User::find($id);
+    public function update(User $user, Request $request){
         
-        request()->validate([
+        $request->validate([
             'name'=>'required|min:8',
-
             'email' => 'required|email'
         ]);
        
-        $user->update(['name'=>request()->name,'email'=>request()->email]);
+        $user->update(['name'=>$request->name,'email'=>$request->email]);
 
-        return back()->with('status','User profile updated successfuly');
+        return back()->with('status','profile updated successfuly');
     }
 }
