@@ -4,7 +4,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShortLinkController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,8 +25,8 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware'=>'auth'],function(){
-    Route::get('/profile/{id}',[UserController::class,'profile'])->name('profile');
-    Route::put('/users/{id}/update',[UserController::class,'update'])->name('users.update');
+    Route::get('/profile/{user}',[UserController::class,'profile'])->name('profile');
+    Route::put('/users/{user}/update',[UserController::class,'update'])->name('users.update');
     Route::resource('links',ShortLinkController::class);
     Route::put('/links/{link}/deactivate',[ShortLinkController::class,'deactivate'])->name('links.deactivate');
 });
